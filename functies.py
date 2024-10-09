@@ -1,10 +1,9 @@
 ##   Functies worden hier gedefinieerd   ##
 
-
-import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
+import seaborn as sns
 
 # Verwijderen van alle uitschieters in de kolom van de dataset
 def remove_outliers(dataframe, columnName):
@@ -69,7 +68,7 @@ def histogram_likes(dataframe, columnName):
 # Maakt een scatter plot van twee variabelen en toont de correlatiecoëfficiënt.
 def correlation_plot(df, targetVariable, featureVariable):
     fig1, ax1 = plt.subplots()
-    ax1.scatter(df[targetVariable], df[featureVariable], s=3)
+    sns.regplot(x=targetVariable, y=featureVariable, data=df, scatter_kws={'s': 3}, line_kws={'color': 'red'}, ax=ax1)
 
     def euro_formatter(x, _):
         if x >= 1000000:
@@ -80,8 +79,24 @@ def correlation_plot(df, targetVariable, featureVariable):
     ax1.set_ylabel(featureVariable)
 
     correlation = df[[targetVariable, featureVariable]].corr().iloc[0, 1]
-    correlation2 = df[[targetVariable, featureVariable]].corr().iloc[0, 1]
 
     ax1.set_title(f"{targetVariable} vs {featureVariable} (r = {correlation:.2f})")
-    ax1.set_title(f"{targetVariable} vs {featureVariable} (r = {correlation2:.2f})")
 
+
+
+# Film in 5 Categorieën delen
+def classify_movie(row):
+    if row['budget'] > 100000000 and row['gross'] > 300000000:
+        return 'Blockbuster'# Hoog budget, hoge opbrengst
+    
+    elif row['budget'] > 100000000 and row['gross'] < 50000000:
+        return 'Flop' # Hoog budget, lage opbrengst
+    
+    elif row['budget'] < 20000000 and row['gross'] > 50000000:
+        return 'Cultfilm' # Laag budget, hoge opbrengst
+    
+    elif 50000000 <= row['budget'] <= 100000000 and 50000000 <= row['gross'] <= 300000000:
+        return 'Mid-Range Movie' # Middelgroot budget, middelgrote opbrengst
+    
+    else:
+        return 'Average' # Overige gewone films
