@@ -20,7 +20,7 @@ def remove_outliers(dataframe, columnName):
 
 
 # Maakt een boxplot voor de kolom : gross
-def boxplot_gross(dataframe, columnName):
+def boxplot_gross_and_budget(dataframe, columnName):
     fig1, ax1 = plt.subplots()
     ax1.boxplot(dataframe[columnName])
     def euro_formatter(x, _):
@@ -31,7 +31,6 @@ def boxplot_gross(dataframe, columnName):
     ax1.set_xlabel(columnName)
     ax1.set_ylabel('Gross')
     plt.show()
-
 
 # Maakt een histogram van de kolom : gross
 def histogram_gross(dataframe, columnName):
@@ -64,15 +63,17 @@ def histogram_likes(dataframe, columnName):
     plt.ylabel('Frequency')
     plt.show()
 
+# Functie uit les CM10
+# Dit passen we toe om de leesbaarheid te verbeteren in de visualisaties
+def euro_formatter(x, _):
+    if x >= 1000000:
+        return f"${x / 1000000:.0f}M"
 
 # Maakt een scatter plot van twee variabelen en toont de correlatiecoëfficiënt.
 def correlation_plot(df, targetVariable, featureVariable):
     fig1, ax1 = plt.subplots()
     sns.regplot(x=targetVariable, y=featureVariable, data=df, scatter_kws={'s': 3}, line_kws={'color': 'red'}, ax=ax1)
 
-    def euro_formatter(x, _):
-        if x >= 1000000:
-            return f"${x / 1000000:.0f}M"
     plt.gca().xaxis.set_major_formatter(FuncFormatter(euro_formatter))
     
     ax1.set_xlabel(targetVariable)
