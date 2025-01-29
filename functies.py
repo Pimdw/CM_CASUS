@@ -5,6 +5,31 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 import seaborn as sns
 
+# Histogram maken voor featurevariabelen
+def plot_histograms(df, featureVariables):
+    num_features = len(featureVariables)
+    
+    fig, axes = plt.subplots(1, num_features, figsize=(5 * num_features, 6), sharey=False)
+
+    for i, feature in enumerate(featureVariables):
+        sns.histplot(data=df, x=feature, kde=True, bins=20, color="skyblue", ax=axes[i])
+
+    plt.suptitle("Histograms of Feature Variables", y=1.02, fontsize=16)
+    plt.show()
+
+# Boxplot maken voor featurevariabelen
+def plot_boxplots(df, featureVariables):
+    num_features = len(featureVariables)
+    
+    fig, axes = plt.subplots(1, num_features, figsize=(5 * num_features, 6), sharey=True)
+
+    for i, feature in enumerate(featureVariables):
+        sns.boxplot(data=df, x=feature, ax=axes[i])
+
+
+    plt.suptitle("Boxplots of Feature Variables", y=1.02, fontsize=16)
+    plt.show()
+
 # Verwijderen van alle uitschieters in de kolom van de dataset
 def remove_outliers(dataframe, columnName):
     q1 = np.quantile(dataframe[columnName], 0.25)
