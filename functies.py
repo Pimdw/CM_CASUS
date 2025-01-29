@@ -69,20 +69,17 @@ def euro_formatter(x, _):
     if x >= 1000000:
         return f"${x / 1000000:.0f}M"
 
-# Maakt een scatter plot van twee variabelen en toont de correlatiecoëfficiënt.
-def correlation_plot(df, targetVariable, featureVariable):
-    fig1, ax1 = plt.subplots()
-    sns.regplot(x=targetVariable, y=featureVariable, data=df, scatter_kws={'s': 3}, line_kws={'color': 'red'}, ax=ax1)
+# Maakt een scatter plot van Gross en alle andere feature variabelen met pairgrid
+def pairgrid_plot(df, featureVariables, targetVariable):
 
-    plt.gca().xaxis.set_major_formatter(FuncFormatter(euro_formatter))
-    
-    ax1.set_xlabel(targetVariable)
-    ax1.set_ylabel(featureVariable)
+    g = sns.PairGrid(df, x_vars=featureVariables, y_vars=targetVariable, height=4, aspect=1.2)
+    g.map(sns.scatterplot)
+    g.map(sns.regplot, scatter=False, color="red", ci=None, line_kws={"linewidth": 2})
 
-    correlation = df[[targetVariable, featureVariable]].corr().iloc[0, 1]
+    plt.suptitle("PairGrid plot: Gross vs featureVariables", y=1.02)
 
-    ax1.set_title(f"{targetVariable} vs {featureVariable} (r = {correlation:.2f})")
-
+    plt.tight_layout()
+    plt.show()
 
 
 # Film in 5 Categorieën delen
