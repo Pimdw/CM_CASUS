@@ -54,7 +54,7 @@ def boxplot_gross_and_budget(dataframe, columnName):
     plt.gca().yaxis.set_major_formatter(FuncFormatter(euro_formatter))
     ax1.set_title(f"Boxplot from {columnName}")
     ax1.set_xlabel(columnName)
-    ax1.set_ylabel('Gross')
+    ax1.set_ylabel(columnName)
     plt.show()
 
 # Maakt een histogram van de kolom : gross
@@ -65,7 +65,7 @@ def histogram_gross(dataframe, columnName):
             return f"${x / 1000000:.0f}M"
     plt.gca().xaxis.set_major_formatter(FuncFormatter(euro_formatter))
     plt.title(f"The frequency of {columnName}")
-    plt.xlabel('Gross')
+    plt.xlabel(columnName)
     plt.ylabel('Frequency')
     plt.show()
 
